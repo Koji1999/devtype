@@ -107,33 +107,45 @@ export default function App () {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen bg-gray-100 flex flex-col items-center py-16 px-4"
       onClick={(e) => { if (!(e.target instanceof HTMLSelectElement)) inputRef.current?.focus(); }}
     >
-      <h1>devtype</h1>
+      <div className="w-full max-w-4xl mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">devtype</h1>
+      </div>
 
-      <LanguageSelector
-        language={language}
-        onChange={(lang) => {
-          setLanguage(lang);
-          handleReset(lang);
-        }}
-      />
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-md p-8 flex flex-col gap-6">
+        <LanguageSelector
+          language={language}
+          onChange={(lang) => {
+            setLanguage(lang);
+            handleReset(lang);
+          }}
+        />
 
-      <StatsBar
-        wpm={wpm}
-        cpm={cpm}
-        accuracy={accuracy}
-        errors={errors}
-        time={time}
-      />
+        <CodeDisplay
+          snippet={snippet}
+          position={position}
+          errorPositions={errorPositions}
+          isError={isError}
+        />
 
-      <CodeDisplay
-        snippet={snippet}
-        position={position}
-        errorPositions={errorPositions}
-        isError={isError}
-      />
+        <div className="flex items-center justify-between">
+          <StatsBar
+            wpm={wpm}
+            cpm={cpm}
+            accuracy={accuracy}
+            errors={errors}
+            time={time}
+          />
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+            onClick={(e) => { e.stopPropagation(); handleReset(); }}
+          >
+            Reset
+          </button>
+        </div>
+      </div>
 
       <input
         ref={inputRef}
@@ -146,9 +158,6 @@ export default function App () {
         }}
       />
 
-      <button onClick={(e) => { e.stopPropagation(); handleReset(); }}>
-        Reset
-      </button>
     </div>
   )
 }
