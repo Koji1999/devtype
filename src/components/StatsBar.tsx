@@ -11,12 +11,19 @@ export default function StatsBar ({ wpm, cpm, accuracy, errors, time }: StatsBar
   const seconds = time % 60;
   const formatted = `${minutes}:${seconds.toString().padStart(2,"0")}`;
   return (
-    <div className="flex gap-6 my-4">
-      <span>Time: {formatted}</span>
-      <span>WPM: {wpm}</span>
-      <span>CPM: {cpm}</span>
-      <span>Accuracy: {accuracy}%</span>
-      <span>Errors: {errors}</span>
+    <div className="flex gap-4">
+      {[
+        { label: "Time", value: formatted },
+        { label: "WPM", value: wpm },
+        { label: "CPM", value: cpm },
+        { label: "Accuracy", value: `${accuracy}%` },
+        { label: "Errors", value: errors },
+      ].map(({ label, value }) => (
+        <div key={label} className="flex flex-col items-center bg-gray-100 rounded-lg px-4 py-2 min-w-16">
+          <span className="text-xs text-gray-400 uppercase tracking-wide">{label}</span>
+          <span className="text-lg font-semibold text-gray-800">{value}</span>
+        </div>
+      ))}
     </div>
   )
 }

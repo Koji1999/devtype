@@ -157,7 +157,6 @@ export default function App () {
           handleKeyPress(e.key);
         }}
       />
-
     </div>
   )
 }
