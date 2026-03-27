@@ -80,7 +80,7 @@ const FALLBACK_SNIPPETS: Record<string, string[]> = {
   go: [
     `func binarySearch(arr []int, target int) int {\n  left, right := 0, len(arr)-1\n  for left <= right {\n    mid := (left + right) / 2\n    if arr[mid] == target {\n      return mid\n    } else if arr[mid] < target {\n      left = mid + 1\n    } else {\n      right = mid - 1\n    }\n  }\n  return -1\n}`,
     `func reverseString(s string) string {\n  runes := []rune(s)\n  for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n    runes[i], runes[j] = runes[j], runes[i]\n  }\n  return string(runes)\n}\n\nfunc isPalindrome(s string) bool {\n  return s == reverseString(s)\n}`,
-    `func mergeSort(arr []int) []int {\n  if len(arr) <= 1 {\n    return arr\n  }\n  mid := len(arr) / 2\n  left := mergeSort(arr[:mid])\n  right := mergeSort(arr[mid:])\n  return merge(left, right)\n}\n\nfunc merge(left, right []int) []int {\n  result := make([]int, 0, len(left)+len(right))\n  i, j := 0, 0\n  for i < len(left) && j < len(right) {\n    if left[i] <= right[j] {\n      result = append(result, left[i])\n      i++\n    } else {\n      result = append(result, right[j])\n      j++\n    }\n  }\n  return append(result, append(left[i:], right[j:]...)...)\n}`,
+    `func mergeSort(arr []int) []int {\n  if len(arr) <= 1 {\n    return arr\n  }\n  mid := len(arr) / 2\n  left := mergeSort(arr[:mid])\n  right := mergeSort(arr[mid:])\n  return merge(left, right)\n}`,
   ],
   rust: [
     `fn fibonacci(n: u64) -> u64 {\n  match n {\n    0 => 0,\n    1 => 1,\n    _ => {\n      let mut a = 0u64;\n      let mut b = 1u64;\n      for _ in 2..=n {\n        let c = a + b;\n        a = b;\n        b = c;\n      }\n      b\n    }\n  }\n}`,
@@ -89,8 +89,8 @@ const FALLBACK_SNIPPETS: Record<string, string[]> = {
   ],
   java: [
     `public class BinarySearch {\n  public static int search(int[] arr, int target) {\n    int left = 0, right = arr.length - 1;\n    while (left <= right) {\n      int mid = left + (right - left) / 2;\n      if (arr[mid] == target) return mid;\n      if (arr[mid] < target) left = mid + 1;\n      else right = mid - 1;\n    }\n    return -1;\n  }\n}`,
-    `public class LinkedList<T> {\n  private Node<T> head;\n\n  private static class Node<T> {\n    T data;\n    Node<T> next;\n    Node(T data) { this.data = data; }\n  }\n\n  public void add(T data) {\n    Node<T> newNode = new Node<>(data);\n    if (head == null) { head = newNode; return; }\n    Node<T> current = head;\n    while (current.next != null) current = current.next;\n    current.next = newNode;\n  }\n}`,
     `public class Stack<T> {\n  private final Deque<T> deque = new ArrayDeque<>();\n\n  public void push(T item) {\n    deque.push(item);\n  }\n\n  public T pop() {\n    if (isEmpty()) throw new EmptyStackException();\n    return deque.pop();\n  }\n\n  public T peek() {\n    return deque.peek();\n  }\n\n  public boolean isEmpty() {\n    return deque.isEmpty();\n  }\n}`,
+    `public class MergeSort {\n  public static void sort(int[] arr, int left, int right) {\n    if (left < right) {\n      int mid = (left + right) / 2;\n      sort(arr, left, mid);\n      sort(arr, mid + 1, right);\n      merge(arr, left, mid, right);\n    }\n  }\n\n  private static void merge(int[] arr, int left, int mid, int right) {\n    int n1 = mid - left + 1;\n    int n2 = right - mid;\n    int[] L = new int[n1];\n    int[] R = new int[n2];\n    System.arraycopy(arr, left, L, 0, n1);\n    System.arraycopy(arr, mid + 1, R, 0, n2);\n    int i = 0, j = 0, k = left;\n    while (i < n1 && j < n2) {\n      if (L[i] <= R[j]) arr[k++] = L[i++];\n      else arr[k++] = R[j++];\n    }\n    while (i < n1) arr[k++] = L[i++];\n    while (j < n2) arr[k++] = R[j++];\n  }\n}`,
   ],
   cpp: [
     `int binarySearch(vector<int>& arr, int target) {\n  int left = 0, right = arr.size() - 1;\n  while (left <= right) {\n    int mid = left + (right - left) / 2;\n    if (arr[mid] == target) return mid;\n    if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}`,
@@ -100,11 +100,11 @@ const FALLBACK_SNIPPETS: Record<string, string[]> = {
   swift: [
     `func binarySearch<T: Comparable>(_ array: [T], target: T) -> Int? {\n  var left = 0\n  var right = array.count - 1\n  while left <= right {\n    let mid = (left + right) / 2\n    if array[mid] == target { return mid }\n    if array[mid] < target { left = mid + 1 }\n    else { right = mid - 1 }\n  }\n  return nil\n}`,
     `struct Stack<T> {\n  private var elements: [T] = []\n\n  mutating func push(_ element: T) {\n    elements.append(element)\n  }\n\n  mutating func pop() -> T? {\n    return elements.popLast()\n  }\n\n  var top: T? {\n    return elements.last\n  }\n\n  var isEmpty: Bool {\n    return elements.isEmpty\n  }\n}`,
-    `func mergeSort<T: Comparable>(_ array: [T]) -> [T] {\n  guard array.count > 1 else { return array }\n  let mid = array.count / 2\n  let left = mergeSort(Array(array[..<mid]))\n  let right = mergeSort(Array(array[mid...]))\n  return merge(left, right)\n}\n\nfunc merge<T: Comparable>(_ left: [T], _ right: [T]) -> [T] {\n  var result: [T] = []\n  var i = 0, j = 0\n  while i < left.count && j < right.count {\n    if left[i] <= right[j] { result.append(left[i]); i++ }\n    else { result.append(right[j]); j++ }\n  }\n  return result + left[i...] + right[j...]\n}`,
+    `func mergeSort<T: Comparable>(_ array: [T]) -> [T] {\n  guard array.count > 1 else { return array }\n  let mid = array.count / 2\n  let left = mergeSort(Array(array[..<mid]))\n  let right = mergeSort(Array(array[mid...]))\n  return merge(left, right)\n}`,
   ],
   php: [
     `function binarySearch(array $arr, $target): int {\n  $left = 0;\n  $right = count($arr) - 1;\n  while ($left <= $right) {\n    $mid = intdiv($left + $right, 2);\n    if ($arr[$mid] === $target) return $mid;\n    if ($arr[$mid] < $target) $left = $mid + 1;\n    else $right = $mid - 1;\n  }\n  return -1;\n}`,
-    `function flatten(array $array): array {\n  $result = [];\n  array_walk_recursive($array, function($item) use (&$result) {\n    $result[] = $item;\n  });\n  return $result;\n}\n\nfunction groupBy(array $array, callable $key): array {\n  return array_reduce($array, function($carry, $item) use ($key) {\n    $carry[$key($item)][] = $item;\n    return $carry;\n  }, []);\n}`,
+    `function flatten(array $array): array {\n  $result = [];\n  array_walk_recursive($array, function($item) use (&$result) {\n    $result[] = $item;\n  });\n  return $result;\n}`,
     `class Collection {\n  private array $items;\n\n  public function __construct(array $items = []) {\n    $this->items = $items;\n  }\n\n  public function filter(callable $callback): self {\n    return new self(array_values(array_filter($this->items, $callback)));\n  }\n\n  public function map(callable $callback): self {\n    return new self(array_map($callback, $this->items));\n  }\n\n  public function count(): int {\n    return count($this->items);\n  }\n}`,
   ],
   css: [
@@ -115,43 +115,46 @@ const FALLBACK_SNIPPETS: Record<string, string[]> = {
 };
 
 const KEYWORDS = [
-  'function', 'const', 'class', 'export', 'def', 'import',
-  'if', 'for', 'func', 'fn ', 'pub ', 'void', 'int ', 'var ',
+  'function', 'const', 'class', 'def',
+  'for', 'func', 'fn ', 'pub ', 'void', 'int ',
   'struct', 'impl', 'type', 'interface', 'switch', 'while',
 ];
+
+const COMMENT_PATTERNS = ['/**', '/*', ' *', '*/', '//!', '//', '#', '"""', "'''"];
 
 function getRandomFallback(language: string): string {
   const snippets = FALLBACK_SNIPPETS[language] ?? FALLBACK_SNIPPETS['javascript'];
   return snippets[Math.floor(Math.random() * snippets.length)];
 }
 
-function extractSnippet(code: string): string {
+function extractSnippet(code: string, language: string): string {
   const lines = code.split('\n');
-  const commentPatterns = ['/**', '/*', ' *', '*/', '//!', '//'];
 
   const logicalLines = lines.reduce<number[]>((acc, line, index) => {
     const trimmed = line.trim();
     const startsAtColumnZero = line.length > 0 && line[0] !== ' ' && line[0] !== '\t';
-    const isNotComment = !commentPatterns.some(p => trimmed.startsWith(p)) &&
-      !trimmed.startsWith('#') &&
-      !trimmed.startsWith('"""') &&
-      !trimmed.startsWith("'''");
-    const hasKeyword = KEYWORDS.some(kw => trimmed.startsWith(kw));
+    const isNotComment = !COMMENT_PATTERNS.some(p => trimmed.startsWith(p));
+    const hasKeyword = KEYWORDS.some(kw => trimmed.startsWith(kw)) ||
+      /^export\s+(default\s+)?(function|class|const)/.test(trimmed);
 
     if (startsAtColumnZero && isNotComment && hasKeyword) {
       const slice = lines.slice(index, index + 20);
       const commentCount = slice.filter(l =>
-        commentPatterns.some(p => l.trim().startsWith(p))
+        COMMENT_PATTERNS.some(p => l.trim().startsWith(p))
       ).length;
+      const contentLines = slice.filter(l => l.trim().length > 0).length;
+      const hasMidCommentBlock = slice.slice(1).some(l =>
+        l.trim().startsWith('/**') || l.trim().startsWith('/*')
+      );
 
-      if (commentCount <= 3) {
+      if (commentCount <= 2 && contentLines >= 10 && !hasMidCommentBlock) {
         acc.push(index);
       }
     }
     return acc;
   }, []);
 
-  if (logicalLines.length === 0) return getRandomFallback('javascript');
+  if (logicalLines.length === 0) return getRandomFallback(language);
 
   const startIndex = logicalLines[Math.floor(Math.random() * logicalLines.length)];
   return lines.slice(startIndex, startIndex + 20).join('\n');
@@ -171,7 +174,7 @@ export async function fetchSnippet(language: string): Promise<string> {
     if (!data.content) return getRandomFallback(language);
 
     const code = atob(data.content.replace(/\n/g, ''));
-    return extractSnippet(code);
+    return extractSnippet(code, language);
   } catch {
     return getRandomFallback(language);
   }
