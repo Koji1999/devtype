@@ -1,0 +1,27 @@
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { left: 0; }
+  20% { left: -3px; }
+  40% { left: 3px; }
+  60% { left: -3px; }
+  80% { left: 3px; }
+}
+
+.char { position: relative; }
+
+.cursor::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 2px;
+  height: 1.2em;
+  background-color: white;
+  animation: blink 1s step-end infinite;
+}
+
+.shake { animation: shake 0.3s ease; }
