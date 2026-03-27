@@ -111,6 +111,37 @@ export default function App () {
       className="min-h-screen bg-gray-100 flex flex-col items-center py-16 px-4"
       onClick={(e) => { if (!(e.target instanceof HTMLSelectElement)) inputRef.current?.focus(); }}
     >
+      {/* 'Finished' popup */}
+      {gameState === 'finished' && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-10 flex flex-col items-center gap-6 w-full max-w-md">
+            <h2 className="text-2xl font-bold text-gray-800">Nice work! 🎉</h2>
+
+            <div className="grid grid-cols-2 gap-4 w-full">
+              {[
+                { label: "WPM", value: wpm },
+                { label: "CPM", value: cpm },
+                { label: "Accuracy", value: `${accuracy}%` },
+                { label: "Errors", value: errors },
+                { label: "Time", value: `${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, "0")}` },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex flex-col items-center bg-gray-100 rounded-xl px-4 py-3">
+                  <span className="text-xs text-gray-400 uppercase tracking-wide">{label}</span>
+                  <span className="text-2xl font-bold text-gray-800">{value}</span>
+                </div>
+              ))}
+            </div>
+
+            <button
+              className="bg-purple-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-colors font-medium w-full"
+              onClick={() => handleReset()}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="w-full max-w-4xl mb-8">
         <h1 className="text-3xl font-bold text-gray-800">devtype</h1>
       </div>
@@ -140,7 +171,7 @@ export default function App () {
             time={time}
           />
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+            className="bg-purple-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
             onClick={(e) => { e.stopPropagation(); handleReset(); }}
           >
             Reset
