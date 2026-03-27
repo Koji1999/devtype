@@ -100,12 +100,12 @@ export default function App () {
   };
 
   const minutes = time / 60;
+  // if time is 0 just show 0, it was changing even after clicking reset
   const wpm = time > 0 ? Math.round((position / 5) / minutes) : 0;
   const cpm = time > 0 ? Math.round(position / minutes) : 0;
   const accuracy = totalKeyPresses > 0
-    ? Math.min(100, Math.round((position / totalKeyPresses) * 100))
+    ? Math.min(100, Math.round(((totalKeyPresses - errors) / totalKeyPresses) * 100))
     : 100;
-  console.log({ time, position, gameState });
   return (
     <div
       className="min-h-screen bg-gray-100 flex flex-col items-center py-16 px-4"
