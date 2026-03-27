@@ -133,7 +133,7 @@ export default function App () {
             </div>
 
             <button
-              className="bg-purple-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-colors font-medium w-full"
+              className="bg-blue-800 hover:bg-purple-600 text-white px-8 py-3 rounded-lg transition-colors font-medium w-full"
               onClick={() => handleReset()}
             >
               Try Again
@@ -142,8 +142,12 @@ export default function App () {
         </div>
       )}
 
-      <div className="w-full max-w-4xl mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">devtype</h1>
+      <div className="w-full max-w-4xl mb-6 flex items-center gap-3">
+        <img src="/favicon.svg" alt="devtype logo" className="w-8 h-8" />
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">devtype</h1>
+          <p className="text-sm text-gray-400 mt-1">Practice typing real code. Select a language and start typing to begin.</p>
+        </div>
       </div>
 
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-md p-8 flex flex-col gap-6">
@@ -171,7 +175,7 @@ export default function App () {
             time={time}
           />
           <button
-            className="bg-purple-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+            className="bg-blue-800 hover:bg-purple-600 text-white drop-shadow px-6 py-2 rounded-lg transition-colors"
             onClick={(e) => { e.stopPropagation(); handleReset(); }}
           >
             Reset
