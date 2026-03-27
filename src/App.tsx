@@ -87,24 +87,25 @@ export default function App () {
   }
 
   const handleReset = (lang?: string) => {
+    stop(); // stopping before reset to stop the interval
+    reset(); // moved up before the setGameState because the timer keeps going after previous game
     setPosition(0);
     setErrors(0);
     setErrorPositions(new Set());
     setIsError(false);
     setTotalKeyPresses(0);
     setGameState('idle');
-    reset();
     fetchSnippet(lang ?? language).then(setSnippet);
     inputRef.current?.focus();
   };
 
   const minutes = time / 60;
-  const wpm = Math.round((position / 5) / minutes) || 0;
-  const cpm = Math.round(position / minutes) || 0;
+  const wpm = time > 0 ? Math.round((position / 5) / minutes) : 0;
+  const cpm = time > 0 ? Math.round(position / minutes) : 0;
   const accuracy = totalKeyPresses > 0
-    ? Math.round((position / totalKeyPresses) * 100)
+    ? Math.min(100, Math.round((position / totalKeyPresses) * 100))
     : 100;
-
+  console.log({ time, position, gameState });
   return (
     <div
       className="min-h-screen bg-gray-100 flex flex-col items-center py-16 px-4"
