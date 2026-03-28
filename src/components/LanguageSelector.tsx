@@ -10,7 +10,7 @@ export default function LanguageSelector ({ language, onChange}: LanguageSelecto
     <select
       value={language}
       onChange={e => onChange(e.target.value)}
-      className="bg-gray-100 text-gray-800 font-medium text-sm px-3 py-2 rounded-lg border border-gray-200 hover:border-blue-400 focus:outline-none focus:border-blue-500 cursor-pointer transition-colors"
+      className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white font-medium text-sm px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-400 focus:outline-none focus:border-blue-500 cursor-pointer transition-colors"
     >
       <option value="javascript">JavaScript</option>
       <option value="typescript">TypeScript</option>
