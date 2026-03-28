@@ -87,7 +87,7 @@ export default function App () {
   }
 
   const handleReset = (lang?: string) => {
-    stop(); // stopping before reset to stop the interval
+    // stop(); // stopping before reset to stop the interval
     reset(); // moved up before the setGameState because the timer keeps going after previous game
     setPosition(0);
     setErrors(0);
