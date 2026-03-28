@@ -158,9 +158,11 @@ export default function App () {
 
         <button
           onClick={() => setIsDark(!isDark)}
-          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors text-xl"
+          className={`relative w-14 h-7 rounded-full transition-colors duration-300 focus:outline-none shrink-0 self-end ${isDark ? 'bg-blue-800' : 'bg-gray-300'}`}
         >
-          {isDark ? '☀️' : '🌙'}
+          <span className={`absolute top-1 left-1 w-5 h-5 bg-gray-50 rounded-full shadow transition-transform duration-300 flex items-center justify-center text-xs ${isDark ? 'translate-x-7' : 'translate-x-0'}`}>
+            {isDark ? '🌙' : '☀️'}
+          </span>
         </button>
       </div>
 
