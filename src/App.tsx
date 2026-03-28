@@ -196,14 +196,14 @@ export default function App () {
             errors={errors}
             time={time}
           />
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400">press <kbd className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-mono">esc</kbd> to reset</span>
+          <div className="flex flex-col items-end gap-1">
             <button
               className="bg-blue-800 hover:bg-purple-600 text-white drop-shadow px-6 py-2 rounded-lg transition-colors"
               onClick={(e) => { e.stopPropagation(); handleReset(); }}
             >
               Reset
             </button>
+            <span className="text-xs text-gray-400">or press <kbd className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-mono">esc</kbd></span>
           </div>
         </div>
       </div>
