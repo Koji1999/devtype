@@ -36,6 +36,11 @@ export default function App () {
     const ignoredKeys = ['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
     if (ignoredKeys.includes(key)) return;
 
+    if (key === 'Escape') {
+      handleReset();
+      return;
+    }
+
     if (gameState === 'idle' && key !== 'Backspace') {
       setGameState('active');
       start();
@@ -65,6 +70,7 @@ export default function App () {
         setIsError(true);
       }
       return;
+
     }
 
     const effectiveKey = key === 'Enter' ? '\n' : key;
@@ -190,12 +196,15 @@ export default function App () {
             errors={errors}
             time={time}
           />
-          <button
-            className="bg-blue-800 hover:bg-purple-600 text-white drop-shadow px-6 py-2 rounded-lg transition-colors"
-            onClick={(e) => { e.stopPropagation(); handleReset(); }}
-          >
-            Reset
-          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-400">press <kbd className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs font-mono">esc</kbd> to reset</span>
+            <button
+              className="bg-blue-800 hover:bg-purple-600 text-white drop-shadow px-6 py-2 rounded-lg transition-colors"
+              onClick={(e) => { e.stopPropagation(); handleReset(); }}
+            >
+              Reset
+            </button>
+          </div>
         </div>
       </div>
 
