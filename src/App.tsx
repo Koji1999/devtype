@@ -87,53 +87,101 @@ export default function App () {
   }
 
   const handleReset = (lang?: string) => {
+    // stop(); // stopping before reset to stop the interval
+    reset(); // moved up before the setGameState because the timer keeps going after previous game
     setPosition(0);
     setErrors(0);
     setErrorPositions(new Set());
     setIsError(false);
     setTotalKeyPresses(0);
     setGameState('idle');
-    reset();
     fetchSnippet(lang ?? language).then(setSnippet);
     inputRef.current?.focus();
   };
 
   const minutes = time / 60;
-  const wpm = Math.round((position / 5) / minutes) || 0;
-  const cpm = Math.round(position / minutes) || 0;
+  // if time is 0 just show 0, it was changing even after clicking reset
+  const wpm = time > 0 ? Math.round((position / 5) / minutes) : 0;
+  const cpm = time > 0 ? Math.round(position / minutes) : 0;
   const accuracy = totalKeyPresses > 0
-    ? Math.round((position / totalKeyPresses) * 100)
+    ? Math.min(100, Math.round(((totalKeyPresses - errors) / totalKeyPresses) * 100))
     : 100;
-
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen bg-gray-100 flex flex-col items-center py-16 px-4"
       onClick={(e) => { if (!(e.target instanceof HTMLSelectElement)) inputRef.current?.focus(); }}
     >
-      <h1>devtype</h1>
+      {/* 'Finished' popup */}
+      {gameState === 'finished' && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-10 flex flex-col items-center gap-6 w-full max-w-md">
+            <h2 className="text-2xl font-bold text-gray-800">Nice work! 🎉</h2>
 
-      <LanguageSelector
-        language={language}
-        onChange={(lang) => {
-          setLanguage(lang);
-          handleReset(lang);
-        }}
-      />
+            <div className="grid grid-cols-2 gap-4 w-full">
+              {[
+                { label: "WPM", value: wpm },
+                { label: "CPM", value: cpm },
+                { label: "Accuracy", value: `${accuracy}%` },
+                { label: "Errors", value: errors },
+                { label: "Time", value: `${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, "0")}` },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex flex-col items-center bg-gray-100 rounded-xl px-4 py-3">
+                  <span className="text-xs text-gray-400 uppercase tracking-wide">{label}</span>
+                  <span className="text-2xl font-bold text-gray-800">{value}</span>
+                </div>
+              ))}
+            </div>
 
-      <StatsBar
-        wpm={wpm}
-        cpm={cpm}
-        accuracy={accuracy}
-        errors={errors}
-        time={time}
-      />
+            <button
+              className="bg-blue-800 hover:bg-purple-600 text-white px-8 py-3 rounded-lg transition-colors font-medium w-full"
+              onClick={() => handleReset()}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
 
-      <CodeDisplay
-        snippet={snippet}
-        position={position}
-        errorPositions={errorPositions}
-        isError={isError}
-      />
+      <div className="w-full max-w-4xl mb-6 flex items-center gap-3">
+        <img src="/favicon.svg" alt="devtype logo" className="w-8 h-8" />
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">devtype</h1>
+          <p className="text-sm text-gray-400 mt-1">Practice typing real code. Select a language and start typing to begin.</p>
+        </div>
+      </div>
+
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-md p-8 flex flex-col gap-6">
+        <LanguageSelector
+          language={language}
+          onChange={(lang) => {
+            setLanguage(lang);
+            handleReset(lang);
+          }}
+        />
+
+        <CodeDisplay
+          snippet={snippet}
+          position={position}
+          errorPositions={errorPositions}
+          isError={isError}
+        />
+
+        <div className="flex items-center justify-between">
+          <StatsBar
+            wpm={wpm}
+            cpm={cpm}
+            accuracy={accuracy}
+            errors={errors}
+            time={time}
+          />
+          <button
+            className="bg-blue-800 hover:bg-purple-600 text-white drop-shadow px-6 py-2 rounded-lg transition-colors"
+            onClick={(e) => { e.stopPropagation(); handleReset(); }}
+          >
+            Reset
+          </button>
+        </div>
+      </div>
 
       <input
         ref={inputRef}
@@ -145,10 +193,6 @@ export default function App () {
           handleKeyPress(e.key);
         }}
       />
-
-      <button onClick={(e) => { e.stopPropagation(); handleReset(); }}>
-        Reset
-      </button>
     </div>
   )
 }

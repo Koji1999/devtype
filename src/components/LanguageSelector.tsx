@@ -4,20 +4,26 @@ interface LanguageSelectorProps {
 }
 
 export default function LanguageSelector ({ language, onChange}: LanguageSelectorProps) {
-  return (
-    <select value={language} onChange={e => onChange(e.target.value)}>
-      <option value="javascript">javascript</option>
-      <option value="typescript">typescript</option>
-      <option value="python">python</option>
-      <option value="ruby">ruby</option>
-      <option value="go">go</option>
-      <option value="rust">rust</option>
-      <option value="java">java</option>
-      <option value="cpp">cpp</option>
-      <option value="swift">swift</option>
-      <option value="php">php</option>
-      <option value="css">css</option>
+ return (
+  <div className="flex items-center gap-2 ml-auto">
+    <label className="text-sm text-gray-400 uppercase tracking-wide">Language</label>
+    <select
+      value={language}
+      onChange={e => onChange(e.target.value)}
+      className="bg-gray-100 text-gray-800 font-medium text-sm px-3 py-2 rounded-lg border border-gray-200 hover:border-blue-400 focus:outline-none focus:border-blue-500 cursor-pointer transition-colors"
+    >
+      <option value="javascript">JavaScript</option>
+      <option value="typescript">TypeScript</option>
+      <option value="python">Python</option>
+      <option value="ruby">Ruby</option>
+      <option value="go">Go</option>
+      <option value="rust">Rust</option>
+      <option value="java">Java</option>
+      <option value="cpp">C++</option>
+      <option value="swift">Swift</option>
+      <option value="php">PHP</option>
+      <option value="css">CSS</option>
     </select>
+  </div>
   )
 }
-

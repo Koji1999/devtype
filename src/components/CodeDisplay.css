@@ -20,7 +20,7 @@
   top: 2px;
   width: 2px;
   height: 1.2em;
-  background-color: white;
+  background-color: #60a5fa;
   animation: blink 1s step-end infinite;
 }
 
