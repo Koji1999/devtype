@@ -115,7 +115,7 @@ export default function App () {
   const wpm = time > 0 ? Math.round((position / 5) / minutes) : 0;
   const cpm = time > 0 ? Math.round(position / minutes) : 0;
   const accuracy = totalKeyPresses > 0
-    ? Math.min(100, Math.round(((totalKeyPresses - errors) / totalKeyPresses) * 100))
+    ? Math.round(((totalKeyPresses - errors) / totalKeyPresses) * 100)
     : 100;
   return (
     <div
