@@ -12,7 +12,7 @@ export default function CodeDisplay ({ snippet, position, errorPositions, isErro
   const cursorPos = isError ? position + 1 : position;
   return (
     <>
-      <div className="font-mono bg-gray-900 text-sm p-4 rounded whitespace-pre-wrap leading-relaxed">
+      <div className="font-mono bg-gray-950 text-sm p-4 rounded whitespace-pre-wrap leading-relaxed">
         {chars.map((char, i) => {
           let className = "char";
           let extraClass = "";
