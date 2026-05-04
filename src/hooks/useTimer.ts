@@ -17,6 +17,5 @@ export function useTimer () {
   const start = () => setIsRunning(true);
   const stop = () => setIsRunning (false);
   const reset = () => { setIsRunning(false); setTime(0); };
-
   return { time, start, stop, reset };
 }
